@@ -28,7 +28,7 @@ Join the *Student Technical Community* to connect and collaborate with individua
 ✨✨✨✨✨✨✨✨✨"""
 
 numbers = []
-f = open("numbers.txt", "r")
+f = open("failed.txt", "r")
 for line in f.read().splitlines():
     if line != "":
         numbers.append(line)
@@ -36,19 +36,21 @@ f.close()
 # numbers.reverse()
 TRIES = 30
 
-driver = webdriver.Chrome("drivers/chromedriver.exe", options=options)
+driver = webdriver.Chrome("drivers/chromedriver", options=options)
 # driver.get('https://web.whatsapp.com')
 # input()
 
-for number in numbers:
+c = 1
+
+for number in numbers:  # Type your range here for example: numbers[1000:2000]
+    print("Count: ", c)
     if number == "":
         continue
-    print("Number: " + number)
+    # print("Number: " + number)
     try:
         url = "https://web.whatsapp.com/send?phone=91" + number + "&text=" + message
-        print(url)
         driver.get(url)
-        sleep(10)
+        sleep(5)
         # click_btn = driver.find_elements(By.CSS_SELECTOR,"footer > div.copyable-area  div:nth-child(3) > button").get(0)
         click_btn = WebDriverWait(driver, TRIES).until(
             EC.presence_of_element_located((By.CLASS_NAME, "_4sWnG"))
@@ -59,7 +61,8 @@ for number in numbers:
     except Exception:
         print("Failed to send message to " + number)
         # append these number to failed.txt
-        f = open("failed.txt", "a")
-        f.write(number + "\n")
-        f.close()
+        # f = open("failed.txt", "a")
+        # f.write(number + "\n")
+        # f.close()
+    c += 1
 driver.quit()
